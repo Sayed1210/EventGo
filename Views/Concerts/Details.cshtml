@@ -1,0 +1,68 @@
+﻿@model EventGo.Models.Concert
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<h4>Concert</h4>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <dl class="row">
+
+            <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Venue)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Venue.Location)
+        </dd>
+    </dl>
+
+        
+</div>
+    <div class="col-lg-3">
+        <div class="card " style="width: 125%; height: 70%;">
+            <img class="card-img-top" style="width: auto; height: auto; object-fit: cover;" src="@Model.Image" alt="@Model.Name" />
+        </div>
+    </div>
+</div>
+
+<h3>Ticket Types</h3>
+<ul>
+    @foreach (var ticketType in Model.TicketTypes)
+    {
+        <li>
+            <strong>@ticketType.TypeName</strong> - @ticketType.Price
+            <a href="@Url.Action("Details", "TicketTypes", new { id = ticketType.TicketTypeId })">Details</a> |
+            <a href="@Url.Action("Edit", "TicketTypes", new { id = ticketType.TicketTypeId })">Edit</a> |
+            <a href="@Url.Action("Delete", "TicketTypes", new { id = ticketType.TicketTypeId })">Delete</a>
+        </li>
+    }
+</ul>
+
+<!-- Button to create a new TicketType for this concert -->
+<a href="@Url.Action("Create", "TicketTypes", new { ConcertId = Model.ConcertId })">Create New Ticket Type</a>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ConcertId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

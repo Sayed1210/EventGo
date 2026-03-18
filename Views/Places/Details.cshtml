@@ -1,0 +1,72 @@
+﻿@model EventGo.Models.Place
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="container">
+    <h4>Place</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-9">
+            <dl class="row">
+               
+
+                <dt class="col-xl-3">
+                    @Html.DisplayNameFor(model => model.PlaceName)
+                </dt>
+                <dd class="col-xl-9">
+                    @Html.DisplayFor(model => model.PlaceName)
+                </dd>
+
+                <dt class="col-xl-3">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="col-xl-9">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt class="col-xl-3">
+                    @Html.DisplayNameFor(model => model.Capacity)
+                </dt>
+                <dd class="col-xl-9">
+                    @Html.DisplayFor(model => model.Capacity)
+                </dd>
+
+                <dt class="col-xl-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-xl-9">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt class="col-xl-3">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-xl-9">
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+            </dl>
+            <a asp-controller="Bookings" asp-action="Create" asp-route-id="@Model?.PlaceId" class="btn btn-primary">Book Now</a>
+
+        </div>
+        <div class="col-lg-3">
+            <div class="card " style="width: 125%; height: 70%;">
+                @* <p>Current image path: @Model.ImagePath</p> *@
+                <img class="card-img-top" style="width: auto; height: auto; object-fit: cover;" src="/@Model.ImagePath.Replace('\\', '/')" alt="@Model.PlaceName" />
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+        <a asp-action="Edit" asp-route-id="@Model?.PlaceId">Edit|</a>
+        <a asp-action="Delete" asp-route-id="@Model?.PlaceId">Delete</a>
+        
+}
+<a asp-action="Index">Back to List</a>
+</div>
+

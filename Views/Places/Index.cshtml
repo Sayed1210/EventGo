@@ -1,0 +1,108 @@
+﻿@model IEnumerable<EventGo.Models.Place>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-4">
+        <form action="/Places/Search" method="get">
+            <label class="control-label fw-semibold p-1">Search by Name or Address</label>
+            <input type="text" name="search" class="form-control" placeholder="Enter name or address" />
+            <input type="submit" value="Search Now" class="btn btn-dark mt-3" />
+        </form>
+    </div>
+</div>
+
+<h1>Our Padel Courts</h1>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+}
+
+<div class="container">
+    <div class="row">
+        @foreach (var place in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 100%; margin-bottom: 20px;">
+                        <img class="card-img-top" style="width: 100%; height: 15rem; object-fit: cover;" src="/@place.ImagePath.Replace('\\', '/')" alt="@place.PlaceName" />
+                    <div class="card-body">
+                        <h5 class="card-title">@place.PlaceName</h5>
+                        <p class="card-text"><strong>@place.Description</strong></p>
+                        <p class="card-text"><strong>Address: @place.Address</strong></p>
+                        <p class="card-text"><strong>Capacity: @place.Capacity</strong></p>
+                        <p class="card-text"><strong>Price: @place.Price</strong></p>
+                        <a href="@Url.Action("Details", new { id = place.PlaceId })" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImagePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PlaceId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PlaceId">Details</a> |
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@

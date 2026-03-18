@@ -1,0 +1,87 @@
+﻿@model EventGo.Models.Booking
+
+<h2>Reservation</h2>
+@* <p>Reservation For: @ViewBag.Username</p> *@
+
+<form asp-action="Create" method="post">
+@*    <div class="form-group">
+        <label asp-for="UserID">User</label>
+        <input asp-for="UserID" class="form-control" />
+    </div> *@
+
+
+   @*   <div class="form-group">
+        <label asp-for="PlaceId"></label>
+        <input asp-for="PlaceId" class="form-control" />
+    </div>  
+ *@
+ @*    <div class="form-group">
+        <label asp-for="UserID"></label>
+        <select asp-for="UserID" class="form-control" asp-items="ViewBag.Users"></select>
+        <span asp-validation-for="UserID" class="text-danger"></span>
+    </div>  *@
+    <div class="form-group">
+        <label for="Username">User Name</label>
+        <input type="text" class="form-control" id="Username" value="@ViewBag.Username" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PlaceId">Place Name</label>
+        <select asp-for="PlaceId" class="form-select" asp-items="ViewBag.Places"></select>
+        <span asp-validation-for="PlaceId" class="text-danger"></span>
+    </div>
+  
+
+    <div class="form-group">
+        <label asp-for="StartTime" class="control-label"></label>
+        <input type="datetime-local" id="startDateTime" class="form-control" step="3600" />
+        <input asp-for="StartTime" type="hidden" />
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+    <div class="form-group">
+        <label asp-for="Hours">Number Of Hours</label>
+        <input asp-for="Hours" class="form-control" type="number" min="1" max="24" />
+        <span asp-validation-for="Hours" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Create Booking</button>
+</form>
+
+
+ @section Scripts 
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var startDateTime = document.getElementById('startDateTime');
+            var startTimeInput = document.querySelector('input[name="StartTime"]');
+
+            // Set initial value
+            var now = new Date()
+            now.setHours(now.getHours() + 4);
+            now.setMinutes(0);
+
+            startDateTime.value = now.toISOString().slice(0,-8);
+
+            // Update hidden input when datetime changes
+            function updateStartTime() {
+                var date = new Date(startDateTime.value);
+                date.setMinutes(0);
+                var localDateTime = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+                startTimeInput.value = localDateTime.toISOString();
+            }
+
+            startDateTime.addEventListener('change', updateStartTime);
+
+            // Initial update
+            updateStartTime();
+        });
+    </script>
+} 

@@ -1,0 +1,41 @@
+﻿@using EventGo.ViewModel
+@model EventGo.ViewModel.PurchaseViewModel
+
+<h2 class="text-center mb-4">Purchase Tickets for @Model.ConcertName</h2>
+
+<form asp-action="ProcessPurchase" method="post">
+    <input type="hidden" name="ConcertId" value="@Model.ConcertId" />
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Available Ticket Types</h4>
+        </div>
+        <div class="card-body">
+            @foreach (var ticket in Model.TicketTypeSelections)
+            {
+                <div class="ticket-type mb-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>@ticket.TypeName</h5>
+                            <p><strong>Price:</strong> @ticket.Price.ToString("C")</p>
+                            <p><strong>Available Tickets:</strong> @ticket.AvailableTickets</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="quantity-@ticket.TicketTypeId">Select Quantity:</label>
+                            <input type="number" name="TicketQuantities[@ticket.TicketTypeId]" id="quantity-@ticket.TicketTypeId" class="form-control" min="0" max="@ticket.AvailableTickets" value="@ticket.SelectedQuantity" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success btn-lg">Proceed to Payment</button>
+    </div>
+</form>
+
+<!-- Go Back Button -->
+<div class="text-center mt-3">
+    <a href="@Url.Action("ConcertDetails", "Concerts", new { id = Model.ConcertId })" class="btn btn-secondary btn-lg">Go Back</a>
+</div>

@@ -1,0 +1,91 @@
+﻿@model EventGo.Models.Payment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Payment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Username">User Name</label>
+                <input type="text" class="form-control" id="Username" value="@ViewBag.Username" readonly />
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="BookingID" class="control-label">Booking</label>
+                <select asp-for="BookingID" class="form-control" asp-items="ViewBag.BookingID" id="bookingSelect">
+                    <option value="" selected>Select a booking</option>
+                </select>
+                <span asp-validation-for="BookingID" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="text" id="amount" class="form-control" readonly />
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="PaymentMethod" class="control-label"></label>
+                <select asp-for="PaymentMethod" class="form-control">
+                    <option value="">Select Payment Method</option>
+                    <option value="Card">Card</option>
+                    <option value="Vodafone Cash">Vodafone Cash</option>
+                    <option value="InstaPay">InstaPay</option>
+                    <option value="Cash">Cash</option>
+                </select>
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            function fetchAmount() {
+                var bookingId = $('#bookingSelect').val();
+                if (bookingId) {
+                    $.ajax({
+                        url: '@Url.Action("GetBookingAmount", "Payments")',
+                        type: 'GET',
+                        data: { bookingId: bookingId },
+                        success: function (data) {
+                            $('#amount').val(data.amount);
+                        },
+                        error: function () {
+                            alert('An error occurred while fetching the amount.');
+                        }
+                    });
+                } else {
+                    $('#amount').val('');
+                }
+            }
+
+            // Trigger on change
+            $('#bookingSelect').change(fetchAmount);
+
+            // Trigger immediately if a booking is already selected
+            fetchAmount();
+        });
+    </script>
+}

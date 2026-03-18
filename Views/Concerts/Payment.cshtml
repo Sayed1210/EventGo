@@ -1,0 +1,22 @@
+﻿<div class="container mt-5">
+    <h2 class="text-center mb-4">Payment Confirmation</h2>
+
+    <div class="alert alert-success text-center">
+        <h4>Thank you for your purchase!</h4>
+        <p class="lead">You have successfully purchased tickets for the following concert:</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h3 class="mb-3">Concert Name</h3>
+            <p><strong>Artist:</strong> Artist Name</p>
+            <p><strong>Organizer:</strong> Organizer Name</p>
+            <p><strong>Date:</strong> October 18, 2024</p>
+            <p><strong>Venue:</strong> Venue Name</p>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="@Url.Action("ConcertDetails", "Concerts", new { id = Model.ConcertId })" class="btn btn-secondary btn-lg">Go Back</a>
+    </div>
+</div>

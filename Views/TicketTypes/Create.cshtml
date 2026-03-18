@@ -1,0 +1,40 @@
+﻿@model EventGo.Models.TicketType
+
+<h2>Create Ticket Type</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="TypeName">Ticket Type Name</label>
+        <input type="text" class="form-control" id="TypeName" name="TypeName" required />
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input type="number" class="form-control" id="Price" name="Price" required />
+    </div>
+    <div class="form-group">
+        <label for="AvailableTickets">AvailableTickets</label>
+        <input type="number" class="form-control" id="AvailableTickets" name="AvailableTickets" required />
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <input type="text" class="form-control" id="Description" name="Description" />
+    </div>
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <input type="file" class="form-control" id="Image" name="Image" />
+    </div>
+
+    <!-- Hidden field for ConcertId -->
+    <input type="hidden" name="concertId" value="@ViewData["ConcertId"]" />
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

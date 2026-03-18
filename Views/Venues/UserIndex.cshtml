@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Venue>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-4">
+        <form action="/Venues/SearchByNameUser">
+            <label class="control-label">Search by name</label>
+            <input type="text" name="venueName" class="form-control" />
+            <input type="submit" value="Search Now" class="btn btn-outline-dark" />
+        </form>
+    </div>
+</div>
+
+<h1>Venues</h1>
+
+
+
+<div class="container">
+    <div class="row">
+        @foreach (var venue in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card" style="width: 100%; margin-bottom: 20px;">
+                    <img class="card-img-top" style="width: 100%; height: 15rem; object-fit: cover;" src="@venue.Image" alt="@venue.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@venue.Name</h5>
+                        <p class="card-text"><strong>@venue.Description</strong></p>
+                        <p class="card-text"><strong>Address: @venue.Location</strong></p>
+                        <a href="@Url.Action("UserConcerts", new { id = venue.VenueId })" class="btn btn-primary">Show Concerts</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

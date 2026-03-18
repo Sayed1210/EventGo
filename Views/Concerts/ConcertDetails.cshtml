@@ -1,0 +1,56 @@
+﻿@using EventGo.ViewModel
+@model ConcertDetailsViewModel
+
+@{
+    ViewData["Title"] = "Concert Details";
+}
+
+<div class="container my-4">
+    <div class="row">
+        <!-- Concert Details Section -->
+        <div class="col-md-8">
+            <div class="card">
+                <img class="card-img-top" src="@Model.Concert.Image" alt="@Model.Concert.Name" style="height: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Concert.Name</h3>
+                    <p><strong>Organizer:</strong> @Model.Concert.Organizer</p>
+                    <p><strong>Artist:</strong> @Model.Concert.Artist</p>
+                    <p><strong>Date:</strong> @Model.Concert.Date.ToString("MM/dd/yyyy")</p>
+                    <p><strong>Venue:</strong> @Model.Concert.Venue.Name (@Model.Concert.Venue.Location)</p>
+                    <p><strong>Description:</strong> @Model.Concert.Description</p>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Types Section -->
+        <div class="col-md-4">
+            <h4>Ticket Types</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticketType in Model.TicketTypes)
+                    {
+                        <tr>
+                            <td>@ticketType.TypeName</td>
+                            <td>@ticketType.Description</td>
+                            <td>@ticketType.Price.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Buy Tickets Button -->
+    <div class="text-center mt-4">
+        <a asp-action="Purchase" asp-route-concertId="@Model.Concert.ConcertId" class="btn btn-primary">Buy Tickets</a>
+    </div>
+
+</div>

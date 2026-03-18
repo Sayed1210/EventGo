@@ -1,0 +1,49 @@
+﻿
+@{
+    // Get the name of the current controller
+
+    var controllerName = Context.Request.RouteValues["controller"].ToString();
+
+
+
+    // Layout for Set 1 (4 controllers)
+
+    if (controllerName == "Concerts" || controllerName == "Venues" ||
+
+        controllerName == "Tickets" || controllerName == "TicketTypes")
+
+    {
+
+        Layout = "~/Views/Shared/_Layout2.cshtml";
+
+    }
+
+    // Layout for Set 2 (5 controllers)
+
+    else if (controllerName == "Bookings" || controllerName == "Home1" ||
+
+             controllerName == "ManageRoles" || controllerName == "PadelSessions" ||
+
+             controllerName == "Payments" || controllerName == "Places" || controllerName == "Accounts")
+
+    {
+
+        Layout = "~/Views/Shared/_Layout1.cshtml";
+
+    }  
+    else if (controllerName == "Main")
+    {
+        Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+
+    }
+
+    else
+
+    {
+        
+    if(User.IsInRole("Admin"))
+        Layout = "_AdminLayout";
+    else Layout = "_Layout";
+ 
+    }
+}

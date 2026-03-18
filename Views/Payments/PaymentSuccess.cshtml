@@ -1,0 +1,14 @@
+﻿<div class="row">
+    <div class="col-md-6 offset-3 alert alert-success text-center">
+        <h2>Your Payment was created successfully</h2>
+        <p>You Will Be Directed in 10 seconds to <a asp-controller="Home1" asp-action="Index">Home</a> page</p>
+        <hr />
+        <p>Thank you!</p>
+    </div>
+</div>
+
+<script>
+    setTimeout(function () {
+        window.location.href = '/Home1/index';
+    }, 10000);
+</script>

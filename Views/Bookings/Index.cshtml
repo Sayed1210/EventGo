@@ -1,0 +1,53 @@
+﻿@model IEnumerable<dynamic>
+
+<h2>All Bookings</h2>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Booking ID</th>
+            <th>Place Name</th>
+            <th>Booking time</th>
+            <th>Start Time</th>
+            <th>Hours</th>
+            <th>TotalAmount</th>
+
+
+            <th></th>
+            <th></th>
+            
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.username</td>
+                <td>@booking.BookingID</td>
+                <td>@booking.PlaceName</td>
+                <td>@booking.BookingTime</td>
+                <td>@booking.StartTime</td>
+                <td>@booking.Hours</td>
+                <td>@booking.TotalAmount</td>
+
+
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@booking.BookingID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@booking.BookingID">Delete</a>
+
+                    </td>
+                }
+                <td>
+                    <a asp-action="Create" asp-controller="Payments" asp-route-bookingId="@booking.BookingID" class="btn btn-primary">Pay Now</a>
+                </td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Create New Booking</a>

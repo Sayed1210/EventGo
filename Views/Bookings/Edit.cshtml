@@ -1,0 +1,72 @@
+﻿@model EventGo.Models.Booking
+
+@* <h2>Edit Booking</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="BookingID" />
+    <div class="form-group">
+        <label asp-for="UserID"></label>
+        <input asp-for="UserID" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="PlaceId"></label>
+        <input asp-for="PlaceId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="StartTime"></label>
+        <input asp-for="StartTime" type="datetime-local" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EndTime"></label>
+        <input asp-for="EndTime" type="datetime-local" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form> *@
+<h2>Edit Booking</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="BookingID" />
+
+   @*  <div class="form-group">
+        <label asp-for="UserID"> User Name</label>
+        <select asp-for="UserID" class="form-control" asp-items="ViewBag.Users"></select>
+        <span asp-validation-for="UserID" class="text-danger"></span>
+    </div> *@
+@*     <div class="form-group">
+        <label asp-for="UserID"></label>
+        <input asp-for="UserID" class="form-control" />
+    </div> *@
+   @*  <div class="form-group">
+        <label asp-for="PlaceId"></label>
+        <input asp-for="PlaceId" class="form-control" />
+    </div> *@
+
+
+     <div class="form-group">
+        <label asp-for="PlaceId">Place Name</label>
+        <select asp-for="PlaceId" class="form-control" asp-items="ViewBag.Places"></select>
+        <span asp-validation-for="PlaceId" class="text-danger"></span>
+    </div> 
+
+    <div class="form-group">
+        <label asp-for="StartTime"> Start Time</label>
+        <input asp-for="StartTime" class="form-control" />
+        <span asp-validation-for="StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Hours">Duaration In Hours</label>
+        <input asp-for="Hours" class="form-control" />
+        <span asp-validation-for="Hours" class="text-danger"></span>
+    </div>
+@*     <div class="form-group">
+        <label asp-for="TotalAmount"> Total Amount</label>
+        <input asp-for="TotalAmount" class="form-control" />
+        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+    </div> *@
+
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
