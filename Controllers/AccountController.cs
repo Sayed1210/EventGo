@@ -88,37 +88,63 @@ namespace EventGo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignUpViewModel signUpVM)
         {
-            if (signUpVM!=null)
+            // Step 1: Check ViewModel annotations first ([Required], [EmailAddress], etc.)
+            if (!ModelState.IsValid)
             {
-                var userByEmail = await userManager.FindByEmailAsync(signUpVM.Email);
-                var userByUserName = await userManager.FindByNameAsync(signUpVM.UserName);
-
-                if (userByEmail == null && userByUserName == null)
-                {
-                    var newUser = new User()
-                    {
-                        UserName = signUpVM.UserName,
-                        Email = signUpVM.Email,
-                        FullName = signUpVM.FullName,
-                    };
-                    var response = await userManager.CreateAsync(newUser, signUpVM.Password);
-                    if (response.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(newUser, UserRoles.User);
-                    }
-
-                    return RedirectToAction("SignUpCompleted");
-                }
-                if (userByUserName != null)
-                    TempData["Error"] = "UserName Already Exists";
-                if (userByEmail != null)
-                    TempData["Error"] = "Email Already Exists";
                 return View(signUpVM);
             }
-            TempData["Error"] = "Login Error, Please Try again, Ensure to enclue complex password";
-            return View(signUpVM);
+
+            // Step 2: Check duplicate username
+            var userByUserName = await userManager.FindByNameAsync(signUpVM.UserName);
+            if (userByUserName != null)
+            {
+                ModelState.AddModelError(string.Empty, "Username already exists.");
+                return View(signUpVM);
+            }
+
+            // Step 3: Check duplicate email
+            var userByEmail = await userManager.FindByEmailAsync(signUpVM.Email);
+            if (userByEmail != null)
+            {
+                ModelState.AddModelError(string.Empty, "Email is already registered.");
+                return View(signUpVM);
+            }
+
+            // Step 4: Try to create user
+            var newUser = new User()
+            {
+                UserName = signUpVM.UserName,
+                Email = signUpVM.Email,
+                FullName = signUpVM.FullName,
+            };
+
+            var response = await userManager.CreateAsync(newUser, signUpVM.Password);
+
+            // Step 5: If creation failed, show Identity errors (password complexity, etc.)
+            if (!response.Succeeded)
+            {
+                foreach (var error in response.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(signUpVM);
+            }
+
+            // Step 6: Assign role
+            var roleResult = await userManager.AddToRoleAsync(newUser, UserRoles.User);
+            if (!roleResult.Succeeded)
+            {
+                foreach (var error in roleResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(signUpVM);
+            }
+
+            // Step 7: Only redirect if EVERYTHING succeeded
+            return RedirectToAction("SignUpCompleted");
         }
-        
+
         public IActionResult SignUpCompleted()
         {
             return View();

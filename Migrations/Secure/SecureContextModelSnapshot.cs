@@ -8,259 +8,115 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EventGo.Migrations.Movie
+namespace EventGo.Migrations.Secure
 {
-    [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SecureContext))]
+    partial class SecureContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.10")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EventGo.Models.Actor", b =>
+            modelBuilder.Entity("EventGo.Models.LoginViewModel1", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Bio")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<bool>("RememberMe")
+                        .HasColumnType("bit");
 
-                    b.ToTable("Actors");
+                    b.HasKey("id");
+
+                    b.ToTable("LoginViewModel1");
                 });
 
-            modelBuilder.Entity("EventGo.Models.Cart", b =>
+            modelBuilder.Entity("EventGo.Models.RegisterViewModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ConfirmPassword")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("RegisterViewModel");
+                });
+
+            modelBuilder.Entity("EventGo.Models.RoleViewModel", b =>
+                {
+                    b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Cart");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("RoleId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("RoleViewModel");
                 });
 
-            modelBuilder.Entity("EventGo.Models.Cinema", b =>
+            modelBuilder.Entity("EventGo.Models.UserRoleViewModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cinemas");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Movie", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Cat_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Producer_Id")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Rate")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Trailer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Cat_Id");
-
-                    b.HasIndex("Producer_Id");
-
-                    b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieActor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ActorId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ActorId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieActors");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieInCinema", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CinemaId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CinemaId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieInCinemas");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieOrder", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MovieOrders");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Producer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Bio")
+                    b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("RolesId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.ToTable("Producers");
+                    b.HasKey("UserID");
+
+                    b.HasIndex("RolesId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("UserRoleViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -271,6 +127,11 @@ namespace EventGo.Migrations.Movie
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -288,6 +149,10 @@ namespace EventGo.Migrations.Movie
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasDiscriminator().HasValue("IdentityRole");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -470,112 +335,39 @@ namespace EventGo.Migrations.Movie
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("EventGo.Models.User", b =>
+            modelBuilder.Entity("EventGo.Models.MyRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<string>("desc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("MyRole");
+                });
+
+            modelBuilder.Entity("EventGo.Models.MyUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("Adress")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasDiscriminator().HasValue("User");
+                    b.HasDiscriminator().HasValue("MyUser");
                 });
 
-            modelBuilder.Entity("EventGo.Models.Cart", b =>
+            modelBuilder.Entity("EventGo.Models.UserRoleViewModel", b =>
                 {
-                    b.HasOne("EventGo.Models.Movie", "Movie")
-                        .WithMany("Carts")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EventGo.Models.MyRole", "Roles")
+                        .WithMany()
+                        .HasForeignKey("RolesId");
 
-                    b.HasOne("EventGo.Models.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserId");
+                    b.HasOne("EventGo.Models.MyUser", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersId");
 
-                    b.Navigation("Movie");
+                    b.Navigation("Roles");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Movie", b =>
-                {
-                    b.HasOne("EventGo.Models.Category", "Category")
-                        .WithMany("Movies")
-                        .HasForeignKey("Cat_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EventGo.Models.Producer", "Producer")
-                        .WithMany("Movies")
-                        .HasForeignKey("Producer_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Producer");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieActor", b =>
-                {
-                    b.HasOne("EventGo.Models.Actor", "Actor")
-                        .WithMany("MovieActors")
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EventGo.Models.Movie", "Movie")
-                        .WithMany("MovieActors")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Actor");
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieInCinema", b =>
-                {
-                    b.HasOne("EventGo.Models.Cinema", "Cinema")
-                        .WithMany("MoviesInCinema")
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EventGo.Models.Movie", "Movie")
-                        .WithMany("MoviesInCinema")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cinema");
-
-                    b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("EventGo.Models.MovieOrder", b =>
-                {
-                    b.HasOne("EventGo.Models.Movie", "Movie")
-                        .WithMany("MovieOrders")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EventGo.Models.User", "User")
-                        .WithMany("MovieOrders")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -627,44 +419,6 @@ namespace EventGo.Migrations.Movie
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("EventGo.Models.Actor", b =>
-                {
-                    b.Navigation("MovieActors");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Category", b =>
-                {
-                    b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Cinema", b =>
-                {
-                    b.Navigation("MoviesInCinema");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Movie", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("MovieActors");
-
-                    b.Navigation("MovieOrders");
-
-                    b.Navigation("MoviesInCinema");
-                });
-
-            modelBuilder.Entity("EventGo.Models.Producer", b =>
-                {
-                    b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("EventGo.Models.User", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("MovieOrders");
                 });
 #pragma warning restore 612, 618
         }

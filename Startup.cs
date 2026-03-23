@@ -61,7 +61,18 @@ namespace EventGo
             //___________________________________________
             //Authentication and Authorization
 
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<MovieContext>();
+          
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireDigit = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.User.RequireUniqueEmail = true;
+            })
+.AddEntityFrameworkStores<MovieContext>()
+.AddDefaultTokenProviders();
             services.AddMemoryCache();
             services.AddSession();
             services.AddAuthentication(options =>

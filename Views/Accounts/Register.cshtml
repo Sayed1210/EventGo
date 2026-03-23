@@ -9,8 +9,11 @@
     <hr />
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form asp-action="Register" class="bg-light p-4 border rounded">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <form asp-action="Register" method="post" class="bg-light p-4 border rounded">
+                @Html.AntiForgeryToken()
+
+                {{!-- Changed ModelOnly to All --}}
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
                 <div class="form-group">
                     <label asp-for="FullName" class="control-label"></label>
@@ -32,17 +35,20 @@
 
                 <div class="form-group">
                     <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" placeholder="Create a password" type="password" />
+                    <input asp-for="Password" class="form-control"
+                           placeholder="Min 8 chars, upper, lower, digit, symbol"
+                           type="password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm your password" type="password" />
+                    <input asp-for="ConfirmPassword" class="form-control"
+                           placeholder="Confirm your password"
+                           type="password" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-               <br />
-
+                <br />
                 <div class="form-group">
                     <input type="submit" value="Register Now" class="btn btn-primary btn-block" />
                 </div>
@@ -51,7 +57,7 @@
     </div>
 
     <div class="text-center mt-3">
-        <a asp-action="Index" class="btn btn-primary btn-lg">Back to Home </a>
+        <a asp-action="Index" class="btn btn-primary btn-lg">Back to Home</a>
     </div>
 </div>
 
